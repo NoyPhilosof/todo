@@ -1,0 +1,14 @@
+helm create homework-app
+vim Chart.yaml
+vim homework-app/values.yaml
+vim homework-app/templates/deployment.yaml
+vim homework-app/templates/service.yaml
+helm lint homework-app/
+helm upgrade -i homework-app ./homework-app
+helm package homework-app
+
+mkdir chartmuseum
+helm plugin install chart-museum
+chartmuseum --port=8080 --storage="local" --storage-local-rootdir="./chartmuseum"
+curl --data-binary "@homework-app-1.0.0.tgz" http://localhost:8080/api/charts
+curl http://localhost:8080/index.yaml
